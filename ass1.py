@@ -1,6 +1,5 @@
-#Sam Durst, sd922
-#Data Structures and Algorithms
-#Assignment 1
+#Sam Durst
+
 import re
 import time
 def main():
