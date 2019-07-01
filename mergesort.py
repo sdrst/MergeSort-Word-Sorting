@@ -1,28 +1,31 @@
-#Sam Durst
+# Sam Durst
 
 import re
 import time
+
+
 def main():
+
     try:
         infile = open(input("Please enter the name of the file with .txt: "), 'r')
     except IOError:
         print("Error Opening File")
     else:
         start_time = time.time()
-        dictionary = {} #First Data Structure
+        dictionary = {}  # First Data Structure
         word_count = []
 
-        words = infile.read() #reads onto one string
+        words = infile.read()  # reads onto one string
         infile.close()
 
-        words = words.lower() #lower case
-        words = re.sub(r'[^\w\s]','',words) #replaces standard punctuation with ''
-        wordlist = words.split() #splits the words by the default blank space
+        words = words.lower() # lower case
+        words = re.sub(r'[^\w\s]','',words)  # replaces standard punctuation with ''
+        wordlist = words.split() # splits the words by the default blank space
 
         for line in wordlist:
-            if line not in dictionary: #if the word hasnt already appeared
-                dictionary[line]=0 #set its count to 0
-            dictionary[line]+=1 #add 1 for every word
+            if line not in dictionary: # if the word hasnt already appeared
+                dictionary[line]=0 # set its count to 0
+            dictionary[line]+=1 # add 1 for every word
 
         for x, y in dictionary.items():
             word_count.append([y,x]) #add the subarray to the array
@@ -66,33 +69,13 @@ def mergeSort(list_sort):
             if lefthalf[i][0] > righthalf[j][0]:
                 list_sort[k]=lefthalf[i] #if the left item is greater than the right, sort it on the left side
                 i+=1
-            elif lefthalf[i][0]==righthalf[j][0] and getCharValue(lefthalf,i) < getCharValue(righthalf,j):
+            elif lefthalf[i][0]==righthalf[j][0] and getCharOrder(lefthalf[i][1], righthalf[j][1], 0) == True:#getCharValue(lefthalf,i) < getCharValue(righthalf,j):
                 list_sort[k]=lefthalf[i] #if they are equal, sort by the character that comes first
                 i+=1
-            elif lefthalf[i][0]==righthalf[j][0] and getCharValue(lefthalf,i) > getCharValue(righthalf,j):
+            elif lefthalf[i][0]==righthalf[j][0] and getCharOrder(lefthalf[i][1], righthalf[j][1], 0) == False:#getCharValue(lefthalf,i) > getCharValue(righthalf,j):
                 list_sort[k]=righthalf[j]
                 j+=1
-            elif lefthalf[i][0]==righthalf[j][0] and getCharValue(lefthalf,i) == getCharValue(righthalf,j):
-                if getSecondChar(lefthalf,i) < getSecondChar(righthalf,j):
-                    list_sort[k]=lefthalf[i] #else if they are equal and they start with the same letter:
-                    i+=1
-                elif getSecondChar(lefthalf,i) == getSecondChar(righthalf,j):
-                    if getThirdItem(lefthalf,i) < getThirdItem(righthalf,j):
-                        list_sort[k]=lefthalf[i]
-                        i+=1
-                    elif getThirdItem(lefthalf,i) == getThirdItem(righthalf,j):
-                        if getFourthItem(lefthalf,i) < getFourthItem(righthalf,j):
-                            list_sort[k]=lefthalf[i]
-                            i+=1
-                        else:
-                            list_sort[k]=righthalf[j]
-                            j+=1
-                    else:
-                        list_sort[k]=righthalf[j]
-                        j+=1
-                else:
-                    list_sort[k]=righthalf[j]
-                    j+=1
+
             else:
                 list_sort[k]=righthalf[j]
                 j+=1
@@ -109,21 +92,20 @@ def mergeSort(list_sort):
             k+=1
 
 alpha = ['','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-def getCharValue(aList, item):
-    x = aList[item][1][:1]
-    return alpha.index(x)
 
-def getSecondChar(aList, item):
-    y = aList[item][1][1:2:1]
-    return alpha.index(y)
 
-def getThirdItem(aList, item):
-    x = aList[item][1][2:3:1]
-    return alpha.index(x)
-
-def getFourthItem(aList,item):
-    x = aList[item][1][3:4:1]
-    return alpha.index(x)
+def getCharOrder(one, two, n):
+    if n >= len(one):
+        return True
+    elif n >= len(two):
+        return False
+    elif alpha.index(one[n]) < alpha.index(two[n]):
+        return True
+    elif n >= len(two) or alpha.index(one[n]) > alpha.index(two[n]):
+        return False
+    else:
+        n+=1
+        return getCharOrder(one, two, n)
 
 
 main()
